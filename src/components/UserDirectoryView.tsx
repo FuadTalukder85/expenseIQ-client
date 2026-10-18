@@ -88,7 +88,7 @@ export const UserDirectoryView: React.FC<UserDirectoryViewProps> = ({
       });
 
       if (response.success && response.data) {
-        showToast("success", `User ${name} registered in PostgreSQL database!`);
+        showToast("success", `User ${name} registered successfully.`);
         onUserAdded(response.data);
         setIsRegisterModalOpen(false);
         setName("");
@@ -97,12 +97,12 @@ export const UserDirectoryView: React.FC<UserDirectoryViewProps> = ({
       } else {
         const errorMsg =
           response.message ||
-          "Registration failed. Verify you have Admin permissions (403 Forbidden for non-admins).";
+          "Registration failed. Administrator permissions are required.";
         setFormError(errorMsg);
         showToast("error", errorMsg);
       }
     } catch {
-      setFormError("Failed to reach backend server on http://localhost:5000");
+      setFormError("Unable to connect to server. Please try again.");
       showToast("error", "Network connection failed");
     } finally {
       setIsSubmitting(false);
@@ -151,7 +151,7 @@ export const UserDirectoryView: React.FC<UserDirectoryViewProps> = ({
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
           <div className="text-xs font-semibold text-slate-500">Total Accounts</div>
           <div className="text-2xl font-bold text-slate-900 mt-1">{users.length}</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Seeded & Registered</div>
+          <div className="text-[11px] text-slate-400 mt-0.5">Company Staff Roster</div>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
@@ -159,7 +159,7 @@ export const UserDirectoryView: React.FC<UserDirectoryViewProps> = ({
           <div className="text-2xl font-bold text-rose-600 mt-1">
             {users.filter((u) => u.role === "ADMIN").length}
           </div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Full Privileges</div>
+          <div className="text-[11px] text-slate-400 mt-0.5">Administrative Control</div>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
@@ -175,7 +175,7 @@ export const UserDirectoryView: React.FC<UserDirectoryViewProps> = ({
           <div className="text-2xl font-bold text-emerald-600 mt-1">
             {users.filter((u) => u.isActive).length} / {users.length}
           </div>
-          <div className="text-[11px] text-slate-400 mt-0.5">1 Inactive (Test 401)</div>
+          <div className="text-[11px] text-slate-400 mt-0.5">Verified Accounts</div>
         </div>
       </div>
 

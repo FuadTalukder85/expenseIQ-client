@@ -1,45 +1,51 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { User } from "../lib/types";
 import {
   UserCheck,
+  Receipt,
   Users2,
-  Activity,
+  Sliders,
   Building2,
 } from "lucide-react";
 
-export type NavTab = "overview" | "directory" | "health";
+export type NavTab = "overview" | "expenses" | "directory" | "admin";
 
 interface SidebarProps {
-  currentTab: NavTab;
-  onSelectTab: (tab: NavTab) => void;
   currentUser: User | null;
-  totalUsersCount: number;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
-  currentTab,
-  onSelectTab,
-  currentUser,
-  totalUsersCount,
-}) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
+  const pathname = usePathname();
+  const isAdmin = currentUser?.role === "ADMIN";
+
   const navItems = [
     {
-      id: "overview" as NavTab,
-      label: "Account Overview",
+      href: "/",
+      label: "Overview",
       icon: UserCheck,
-      badge: null,
+      visible: true,
     },
     {
-      id: "directory" as NavTab,
+      href: "/expenses",
+      label: "Expenses",
+      icon: Receipt,
+      visible: true,
+    },
+    {
+      href: "/directory",
       label: "Team Directory",
       icon: Users2,
-      badge: `${totalUsersCount}`,
+      visible: true,
     },
     {
-      id: "health" as NavTab,
-      label: "System Status",
-      icon: Activity,
-      badge: null,
+      href: "/admin",
+      label: "Admin Settings",
+      icon: Sliders,
+      visible: isAdmin,
     },
   ];
 
@@ -51,35 +57,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 mb-2">
             Main Menu
           </div>
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentTab === item.id;
+          {navItems
+            .filter((item) => item.visible)
+            .map((item) => {
+              const Icon = item.icon;
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname?.startsWith(item.href);
 
-            return (
-              <button
-                key={item.id}
-                onClick={() => onSelectTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700 font-semibold shadow-xs"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon
-                    className={`w-4 h-4 ${isActive ? "text-blue-600" : "text-slate-400"}`}
-                  />
-                  <span>{item.label}</span>
-                </div>
-
-                {item.badge && (
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`w-full flex items-center px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all ${
+                    isActive
+                      ? "bg-blue-50 text-blue-700 font-semibold shadow-xs"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon
+                      className={`w-4 h-4 ${isActive ? "text-blue-600" : "text-slate-400"}`}
+                    />
+                    <span>{item.label}</span>
+                  </div>
+                </Link>
+              );
+            })}
         </nav>
       </div>
 

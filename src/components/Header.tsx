@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { User, Role } from "../lib/types";
 import {
   ShieldCheck,
-  Server,
   LogOut,
   ArrowRightLeft,
   ChevronDown,
@@ -10,14 +9,12 @@ import {
 
 interface HeaderProps {
   currentUser: User | null;
-  backendOnline: boolean;
   onLogout: () => void;
   onQuickSwitchRole: (role: Role) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentUser,
-  backendOnline,
   onLogout,
   onQuickSwitchRole,
 }) => {
@@ -72,20 +69,6 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right Action Bar */}
       <div className="flex items-center gap-3 sm:gap-4">
-        {/* Backend health live pill */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs text-slate-600">
-          <Server className="w-3.5 h-3.5 text-slate-400" />
-          <span className="flex items-center gap-1.5 font-medium">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                backendOnline ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
-              }`}
-            />
-            <span className={backendOnline ? "text-emerald-700" : "text-rose-600"}>
-              {backendOnline ? "System Operational" : "Service Offline"}
-            </span>
-          </span>
-        </div>
 
         {/* 1-Click Role Switcher Dropdown */}
         <div className="relative">

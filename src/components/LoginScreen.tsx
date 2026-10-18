@@ -15,12 +15,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, showTo
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const demoAccounts = [
-    { role: "ADMIN" as Role, email: "admin@expenseiq.com", label: "Admin" },
+    { role: "ADMIN" as Role, email: "admin@expenseiq.com", label: "System Admin" },
     { role: "DEPT_HEAD" as Role, email: "head@expenseiq.com", label: "Dept Head" },
     { role: "MANAGER" as Role, email: "manager@expenseiq.com", label: "Manager" },
-    { role: "FINANCE" as Role, email: "finance@expenseiq.com", label: "Finance" },
+    { role: "FINANCE" as Role, email: "finance@expenseiq.com", label: "Finance Officer" },
     { role: "EMPLOYEE" as Role, email: "employee@expenseiq.com", label: "Employee" },
-    { role: "EMPLOYEE" as Role, email: "inactive@expenseiq.com", label: "Inactive (Test 401)" },
   ];
 
   const handleLogin = async (e?: React.FormEvent, customEmail?: string) => {
@@ -43,8 +42,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, showTo
         showToast("error", response.message || "Login failed");
       }
     } catch {
-      setErrorMessage("Could not connect to backend server on http://localhost:5000");
-      showToast("error", "Backend offline");
+      setErrorMessage("Unable to connect to authentication server. Please try again.");
+      showToast("error", "Service unavailable");
     } finally {
       setIsLoading(false);
     }
@@ -163,7 +162,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, showTo
 
         {/* Footer */}
         <p className="text-center text-[11px] text-slate-400">
-          Connected to Express 5 • PostgreSQL (Prisma 7) • JWT Auth
+          © ExpenseIQ Corporate Finance Solutions. All rights reserved.
         </p>
       </div>
     </div>

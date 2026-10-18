@@ -75,4 +75,16 @@ export interface Category {
   id: string;
   name: string;
   taxRate: number;
+  isActive?: boolean;
+}
+
+export interface ApprovalPolicy {
+  id: string;
+  departmentId?: string | null;
+  thresholdAmount: number;
+  updatedAt?: string;
+  department?: {
+    id: string;
+    name: string;
+  };
 }

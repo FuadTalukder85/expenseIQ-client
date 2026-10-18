@@ -241,8 +241,8 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                 <div className="text-xs font-semibold text-slate-900">
                   Cost Center Identifier
                 </div>
-                <div className="text-[11px] text-slate-500 font-mono mt-0.5">
-                  {currentUser?.departmentId || "cmvcve7yn0004a8bsjogxt26v"}
+                <div className="text-[11px] text-slate-600 font-mono mt-0.5">
+                  {currentUser?.department?.name ? `CC-${currentUser.department.name.slice(0, 3).toUpperCase()}-101` : "CC-CORP-101"}
                 </div>
               </div>
             </div>
